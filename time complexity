@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <time.h>
+int main() {
+    int n;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; i++)
+        arr[i] = i;
+    int key = n - 1; 
+    int found = 0;
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            found = 1;
+            break;
+        }
+    }
+    end = clock();
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    if (found)
+        printf("Element found!\n");
+    else
+        printf("Element not found!\n");
+
+    printf("Time taken: %f seconds\n", cpu_time_used);
+    printf("Theoretical Time Complexity: O(n)\n");
+
+    return 0;
+}
