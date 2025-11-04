@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int N;
+    int *arr, *ptr;
+    int sum = 0, max;
+    printf("Enter number of elements: ");
+    scanf("%d", &N);
+    arr = (int *)malloc(N * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+    printf("Enter %d integers:\n", N);
+    for (ptr = arr; ptr < arr + N; ptr++) {
+        scanf("%d", ptr);
+    }
+    max = *arr;
+    for (ptr = arr; ptr < arr + N; ptr++) {
+        sum += *ptr;
+        if (*ptr > max) {
+            max = *ptr;
+        }
+    }
+    printf("\nSum = %d", sum);
+    printf("\nMaximum = %d\n", max);
+    free(arr);
+    return 0;
+}
