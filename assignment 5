@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+char* getLine() {
+    char *buffer = NULL;
+    int size = 0;        // Number of characters currently stored
+    int capacity = 10;   // Initial capacity
+    int ch;
+
+    // Allocate initial buffer
+    buffer = (char *)malloc(capacity * sizeof(char));
+    if (buffer == NULL) {
+        printf("Memory allocation failed!\n");
+        return NULL;
+    }
+
+    // Read characters until newline or EOF
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+        buffer[size++] = (char)ch;
+
+        // If full, double the capacity
+        if (size >= capacity) {
+            capacity *= 2;
+            char *temp = (char *)realloc(buffer, capacity * sizeof(char));
+            if (temp == NULL) {
+                printf("Memory reallocation failed!\n");
+                free(buffer);
+                return NULL;
+            }
+            buffer = temp;
+        }
+    }
+
+    // Add null terminator
+    buffer[size] = '\0';
+
+    // Optionally shrink to exact size
+    char *final = (char *)realloc(buffer, (size + 1) * sizeof(char));
+    if (final != NULL)
+        buffer = final;
+
+    return buffer;  // Caller must free()
+}
+
+int main() {
+    printf("Enter a line of text: ");
+    char *line = getLine();
+
+    if (line != NULL) {
+        printf("You entered: %s\n", line);
+        free(line);  // Always free dynamically allocated memory
+    }
+
+    return 0;
+}
