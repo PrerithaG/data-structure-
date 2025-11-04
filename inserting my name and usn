@@ -1,0 +1,23 @@
+#include <stdio.h>
+#define cap 10
+int main() {
+  int a[cap] =  {1,4,2,6,4,8};
+  int n=5;
+  int pos;
+  int val = 6;
+  printf("enter the position : ");
+  scanf("%d",&pos);
+  for(int i=0;i>pos;i--)
+  {
+  a[i]=a[i-1];
+}
+a[pos-1]=val;
+n++;
+for(int i=0;i<n;i++)
+{
+printf("%d",a[i]);
+}
+printf("\n preritha.g\n");
+printf("\n 1sv24cs103\n");
+    return 0;
+}
