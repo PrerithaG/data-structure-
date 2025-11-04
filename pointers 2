@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int R, C;
+    int *matrix = NULL, *transpose = NULL;
+    int i, j;
+
+    printf("Enter number of rows and columns: ");
+    scanf("%d %d", &R, &C);
+
+    // Allocate single block for R x C matrix
+    matrix = (int *)malloc(R * C * sizeof(int));
+    if (matrix == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    printf("Enter %d elements:\n", R * C);
+    for (i = 0; i < R; i++) {
+        for (j = 0; j < C; j++) {
+            scanf("%d", (matrix + i * C + j));  // pointer arithmetic
+        }
+    }
+
+    printf("\nOriginal Matrix:\n");
+    for (i = 0; i < R; i++) {
+        for (j = 0; j < C; j++) {
+            printf("%4d", *(matrix + i * C + j));
+        }
+        printf("\n");
+    }
+
+    // If square, transpose in place
+    if (R == C) {
+        printf("\nTranspose (in place):\n");
+        int temp;
+        for (i = 0; i < R; i++) {
+            for (j = i + 1; j < C; j++) {
+                temp = *(matrix + i * C + j);
+                *(matrix + i * C + j) = *(matrix + j * C + i);
+                *(matrix + j * C + i) = temp;
+            }
+        }
+
+        for (i = 0; i < R; i++) {
+            for (j = 0; j < C; j++) {
+                printf("%4d", *(matrix + i * C + j));
+            }
+            printf("\n");
+        }
+    }
+    else {
+        // Non-square: allocate new memory for transposed matrix
+        transpose = (int *)malloc(C * R * sizeof(int));
+        if (transpose == NULL) {
+            printf("Memory allocation for transpose failed!\n");
+            free(matrix);
+            return 1;
+        }
+
+        // Fill transposed matrix
+        for (i = 0; i < R; i++) {
+            for (j = 0; j < C; j++) {
+                *(transpose + j * R + i) = *(matrix + i * C + j);
+            }
+        }
+
+        printf("\nTranspose (new matrix):\n");
+        for (i = 0; i < C; i++) {
+            for (j = 0; j < R; j++) {
+                printf("%4d", *(transpose + i * R + j));
+            }
+            printf("\n");
+        }
+
+        // Free transpose memory
+        free(transpose);
+    }
+
+    // Free main matrix memory
+    free(matrix);
+
+    return 0;
+}
