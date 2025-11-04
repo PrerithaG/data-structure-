@@ -1,0 +1,21 @@
+#include <stdio.h>
+#define cap 10
+int main() {
+  int a[cap] =  {1,4,2,6,4,8};
+  int n=5;
+  int pos=4;
+  for(int i=pos-1;i<n;i++){
+      a[i]=a[i+1];
+  }
+  n--;
+  if(pos<1||pos>1){
+      printf("invalid position");
+  }
+for(int i=0;i<n;i++)
+{
+printf("%d",a[i]);
+}
+printf("\n preritha.g\n");
+printf("\n 1sv24cs103\n");
+    return 0;
+}
