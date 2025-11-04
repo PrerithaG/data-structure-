@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Dynamic array structure
+typedef struct {
+    int *data;       // Pointer to the array
+    int size;        // Current number of elements
+    int capacity;    // Allocated capacity
+} DynamicArray;
+
+// Function to initialize the array
+void initArray(DynamicArray *arr, int initialCapacity) {
+    arr->data = (int *)malloc(initialCapacity * sizeof(int));
+    if (arr->data == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    arr->size = 0;
+    arr->capacity = initialCapacity;
+}
+
+// Function to add (push) an element to the array
+void push(DynamicArray *arr, int value) {
+    // Check if array is full
+    if (arr->size == arr->capacity) {
+        arr->capacity *= 2;  // Double the capacity
+        int *temp = (int *)realloc(arr->data, arr->capacity * sizeof(int));
+        if (temp == NULL) {
+            printf("Memory reallocation failed!\n");
+            free(arr->data);
+            exit(1);
+        }
+        arr->data = temp;
+        printf("Capacity doubled to %d\n", arr->capacity);
+    }
+
+    // Insert new element using pointer arithmetic
+    *(arr->data + arr->size) = value;
+    arr->size++;
+}
+
+// Function to print the array
+void printArray(DynamicArray *arr) {
+    printf("Array elements: ");
+    for (int i = 0; i < arr->size; i++) {
+        printf("%d ", *(arr->data + i));
+    }
+    printf("\n");
+}
+
+// Function to free the array
+void freeArray(DynamicArray *arr) {
+    free(arr->data);
+    arr->data = NULL;
+    arr->size = 0;
+    arr->capacity = 0;
+}
+
+// Main function to demonstrate
+int main() {
+    DynamicArray arr;
+    initArray(&arr, 2);  // Start with small capacity
+
+    // Push elements dynamically
+    for (int i = 1; i <= 10; i++) {
+        push(&arr, i);
+        printArray(&arr);
+    }
+
+    // Free memory
+    freeArray(&arr);
+    return 0;
+}
