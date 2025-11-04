@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+char* my_strdup(char *src) {
+    char *dup, *p, *q;
+    int len = 0;
+    for (p = src; *p != '\0'; p++) {
+        len++;
+    }
+    dup = (char *)malloc((len + 1) * sizeof(char));
+    if (dup == NULL) {
+        printf("Memory allocation failed!\n");
+        return NULL;
+    q = dup;
+    for (p = src; *p != '\0'; p++, q++) {
+        *q = *p;
+    }
+    *q = '\0';  
+    return dup;
+}
+int main() {
+    char str[100];
+    char *copy;
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+    for (char *p = str; *p != '\0'; p++) {
+        if (*p == '\n') {
+            *p = '\0';
+            break;
+        }
+    }
+    copy = my_strdup(str);
+    if (copy != NULL) {
+        printf("Original string: %s\n", str);
+        printf("Duplicated string: %s\n", copy);
+        free(copy);
+    }
+    return 0;
+}
