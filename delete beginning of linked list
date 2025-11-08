@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void insertEnd(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    struct Node* temp = *head;
+    while (temp->next != NULL)
+        temp = temp->next;
+    temp->next = newNode;
+}
+void deleteBeginning(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is empty. Nothing to delete.\n");
+        return;
+    }
+    struct Node* temp = *head;
+    *head = (*head)->next;  
+    free(temp);             
+    printf("First node deleted successfully.\n");
+}
+void display(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+int main() {
+    struct Node* head = NULL;
+    int n, data;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter value %d: ", i + 1);
+        scanf("%d", &data);
+        insertEnd(&head, data);
+    }
+    printf("\nLinked List before deletion:\n");
+    display(head);
+    deleteBeginning(&head);
+    printf("\nLinked List after deleting first node:\n");
+    display(head);
+    return 0;
+}
+
